@@ -42,19 +42,19 @@ public class MimcSponge {
         return result;
     }
 
-    public PairHash hash(long l, long r) {
+    public PairByteArray hash(long l, long r) {
         return hash(longToBytes(l), longToBytes(r));
     }
 
-    public PairHash hash(long l, long r, long k) {
+    public PairByteArray hash(long l, long r, long k) {
         return hash(longToBytes(l), longToBytes(r), k);
     }
 
-    public PairHash hash(byte[] l, byte[] r) {
+    public PairByteArray hash(byte[] l, byte[] r) {
         return hash(l, r, 0);
     }
 
-    public PairHash hash(byte[] l, byte[] r, long k) {
+    public PairByteArray hash(byte[] l, byte[] r, long k) {
 
         byte[] xl = l.clone();
         byte[] xr = r.clone();
@@ -74,7 +74,7 @@ public class MimcSponge {
                 xr = ByteArrayOperator.add(xrTmp, t5);
             }
         }
-        return new PairHash(xl, xr);
+        return new PairByteArray(xl, xr);
     }
 
     public byte[][] multiHash(byte[][] input) {
@@ -90,13 +90,13 @@ public class MimcSponge {
 
         for (byte[] bytes : input) {
             r = ByteArrayOperator.add(r, bytes);
-            PairHash s = hash(r, c, key);
+            PairByteArray s = hash(r, c, key);
             r = s.l;
             c = s.r;
         }
         result[0] = r;
         for (int i=1; i < numOutputs; i++) {
-            PairHash s = hash(r, c, key);
+            PairByteArray s = hash(r, c, key);
             r = s.l;
             c = s.r;
             result[i] = r;
