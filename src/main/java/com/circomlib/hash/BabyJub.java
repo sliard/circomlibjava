@@ -131,10 +131,23 @@ public class BabyJub {
     }
 
     public byte[] packPoint(PairByteArray p) {
+        System.out.println("p.l="+ByteArrayOperator.toString(p.l, 16));
+        System.out.println("p.r="+ByteArrayOperator.toString(p.r, 16));
         byte[] buff = ByteArrayOperator.toRprLE(p.r, 0);
+        System.out.println("buff="+ByteArrayOperator.toString(buff, 16));
+        System.out.println("buff="+new BigInteger(buff).toString(16));
+        System.out.println("buff[31]="+buff[31]);
+        System.out.println("buff[30]="+buff[30]);
+        System.out.println("buff[1]="+buff[1]);
+        System.out.println("buff[0]="+buff[0]);
         if (ByteArrayOperator.gt(p.l, this.pm1d2)) {
             buff[31] = (byte)(buff[31] | 0x80);
         }
+        System.out.println("buff="+ByteArrayOperator.toString(buff, 16));
+        System.out.println("buff[31]="+buff[31]);
+        System.out.println("buff[30]="+buff[30]);
+        System.out.println("buff[1]="+buff[1]);
+        System.out.println("buff[0]="+buff[0]);
         return buff;
     }
 }

@@ -10,7 +10,7 @@ public class ByteArrayOperator {
     public static final byte[] ZERO = new byte[32];
     public static final byte[] ONE = new BigInteger("1",10).toByteArray();
 
-    private static final BigInteger maxBig = new BigInteger("21888242871839275222246405745257275088548364400416034343698204186575808495617",10);
+    public static final BigInteger maxBig = new BigInteger("21888242871839275222246405745257275088548364400416034343698204186575808495617",10);
 
     public static byte[] mul(byte[] a, byte[] b) {
         BigInteger ba = new BigInteger(a);
@@ -75,6 +75,7 @@ public class ByteArrayOperator {
         return e(b);
     }
 
+    // Pases a buffer with Little Endian Representation
     public static byte[] fromRprLE(byte[] v, int offset) {
         byte[] result = new byte[v.length];
         for(int i=0; i<v.length; i++) {
@@ -83,12 +84,12 @@ public class ByteArrayOperator {
         return result;
     }
 
+    // Returns a buffer with Little Endian Representation
     public static byte[] toRprLE(byte[] v, int offset) {
-        byte[] result = new byte[v.length];
-        for(int i=0; i<v.length; i++) {
-            result[i] = v[v.length-1-i];
-        }
-        return result;
+        BigInteger b = new BigInteger(v);
+        BigInteger r = new BigInteger(ONE).shiftLeft(4*64);
+        BigInteger rInv = r.modInverse(maxBig);
+        return e(b.multiply(rInv));
     }
 
 
