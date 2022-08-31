@@ -22,7 +22,7 @@ public class ByteArrayOperator {
     public static byte[] div(byte[] a, byte[] b) {
         BigInteger ba = new BigInteger(a);
         BigInteger bb = new BigInteger(b);
-        BigInteger bc = ba.divide(bb);
+        BigInteger bc = ba.multiply(bb.modInverse(maxBig));
         return e(bc);
     }
 
@@ -92,7 +92,7 @@ public class ByteArrayOperator {
     }
 
 
-    private static byte[] e(BigInteger b) {
+    public static byte[] e(BigInteger b) {
         if (b.signum() < 0) {
             b = b.multiply(new BigInteger("-1"));
             b = b.mod(maxBig);
