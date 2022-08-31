@@ -32,6 +32,12 @@ public class ByteArrayOperator {
         return e(bc);
     }
 
+    public static byte[] sqrt(byte[] a) {
+        BigInteger ba = new BigInteger(a);
+        BigInteger bc = ba.sqrt();
+        return e(bc);
+    }
+
     public static byte[] add(byte[] a, byte[] b) {
         BigInteger ba = new BigInteger(a);
         BigInteger bb = new BigInteger(b);

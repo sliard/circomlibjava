@@ -99,7 +99,7 @@ public class BabyJub {
             sign = true;
             buff[31] = (byte)(buff[31] & 0x7F);
         }
-        p.l = ByteArrayOperator.fromRprLE(buff, 0);
+        p.r = ByteArrayOperator.fromRprLE(buff, 0);
         if (ByteArrayOperator.gt(p.r, this.p)) {
             return null;
         }
@@ -116,7 +116,12 @@ public class BabyJub {
             return null;
         }
 
-        byte[] x = ByteArrayOperator.square(x2);
+        byte[] x;
+        try {
+           x = ByteArrayOperator.sqrt(x2);
+        } catch (Exception e) {
+            return null;
+        }
 
         if (sign) {
             x = ByteArrayOperator.neg(x);
