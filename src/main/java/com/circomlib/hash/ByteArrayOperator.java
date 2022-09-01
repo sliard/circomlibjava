@@ -76,7 +76,7 @@ public class ByteArrayOperator {
     }
 
     // Pases a buffer with Little Endian Representation
-    public static byte[] fromRprLE(byte[] v, int offset) {
+    public static byte[] toRprLE(byte[] v, int offset) {
         byte[] result = new byte[v.length];
         for(int i=0; i<v.length; i++) {
             result[i] = v[v.length-1-i];
@@ -85,7 +85,7 @@ public class ByteArrayOperator {
     }
 
     // Returns a buffer with Little Endian Representation
-    public static byte[] toRprLE(byte[] v, int offset) {
+    public static byte[] fromRprLE(byte[] v, int offset) {
         BigInteger b = new BigInteger(v);
         BigInteger r = new BigInteger(ONE).shiftLeft(4*64);
         BigInteger rInv = r.modInverse(maxBig);
@@ -152,9 +152,21 @@ public class ByteArrayOperator {
         return (b1[0] & 0x01) == 1;
     }
 
+    public static String toString(byte[] v) {
+        return toString(v, 16);
+    }
 
     public static String toString(byte[] v, int base) {
         BigInteger b = new BigInteger(e(v));
         return b.toString(base);
     }
+
+    public static String toHexString(byte[] v) {
+        StringBuilder result = new StringBuilder();
+        for (byte aByte : v) {
+            result.append(String.format("%02x", aByte));
+        }
+        return result.toString();
+    }
+
 }
