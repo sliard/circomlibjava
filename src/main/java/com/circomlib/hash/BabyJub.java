@@ -100,32 +100,18 @@ public class BabyJub {
             buff[31] = (byte)(buff[31] & 0x7F);
         }
 
-        System.out.println("buff="+ByteArrayOperator.toString(buff, 16));
-        System.out.println("buff="+ByteArrayOperator.toHexString(buff));
-
         p.r = ByteArrayOperator.e(ByteArrayOperator.toRprLE(buff, 0));
-
-        System.out.println("p.r="+ByteArrayOperator.toString(p.r));
-
         if (ByteArrayOperator.gt(p.r, this.p)) {
             return null;
         }
 
         byte[] y2 = ByteArrayOperator.square(p.r);
-
-        System.out.println("y2="+ByteArrayOperator.toString(y2));
-
         byte[] x2 = ByteArrayOperator.div(
                 ByteArrayOperator.sub(ByteArrayOperator.ONE, y2),
                 ByteArrayOperator.sub(this.A, ByteArrayOperator.mul(this.D, y2))
         );
 
-        System.out.println("x2="+ByteArrayOperator.toString(x2));
-
         byte[] x2h = ByteArrayOperator.exp(x2, this.half);
-
-        System.out.println("x2h="+ByteArrayOperator.toString(x2h));
-
         if (! ByteArrayOperator.eq(ByteArrayOperator.ONE, x2h)) {
             return null;
         }
@@ -137,14 +123,10 @@ public class BabyJub {
             return null;
         }
 
-        System.out.println("x="+ByteArrayOperator.toString(x));
-
         if (sign) {
             x = ByteArrayOperator.neg(x);
         }
         p.l = x;
-
-        System.out.println("p.l="+ByteArrayOperator.toString(p.l));
         return p;
     }
 
