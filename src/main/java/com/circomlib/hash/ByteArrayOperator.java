@@ -35,72 +35,8 @@ public class ByteArrayOperator {
 
     public static byte[] sqrt(byte[] a) {
         BigInteger ba = new BigInteger(a);
-        return e(sqrtModPrime(ba, maxBig));
-    }
-
-    public static boolean hasSqrtModPrime(BigInteger r, BigInteger p) {
-        BigInteger two = new BigInteger("2");
-        return r.modPow(p.subtract(BigInteger.ONE).divide(two), p).equals(
-                BigInteger.ONE);
-    }
-
-    public static BigInteger sqrtModPrime(BigInteger rSquare, BigInteger p) {
-        BigInteger two = new BigInteger("2");
-        BigInteger z = two;
-
-        //z which must be a quadratic non-residue mod p.
-        while (hasSqrtModPrime(z, p)) {
-            z = z.add(BigInteger.ONE);
-        }
-
-        if (!hasSqrtModPrime(rSquare, p)) {
-            throw new UnknownError("r has no square root");
-        } else {
-            if (p.mod(new BigInteger("4")).equals(new BigInteger("3"))) {
-                return rSquare.modPow(
-                        p.add(BigInteger.ONE).divide(new BigInteger("4")),
-                        p);
-            } else {
-                BigInteger pMin1 = p.subtract(BigInteger.ONE); //p-1
-                BigInteger s = BigInteger.ONE;
-                BigInteger q = pMin1.divide(two);
-
-                //Finding Q
-                while (q.mod(two).equals(BigInteger.ZERO)) {
-                    q = q.divide(two);
-                    s = s.add(BigInteger.ONE);
-                }
-
-                BigInteger c = z.modPow(q, p);
-                BigInteger r = rSquare.modPow(
-                        q.add(BigInteger.ONE).divide(two), p);
-                BigInteger t = rSquare.modPow(q, p);
-                BigInteger m = s;
-
-                //Loop until t==1
-                while (!t.equals(BigInteger.ONE)) {
-                    BigInteger i = BigInteger.ZERO;
-                    while (!BigInteger.ONE.equals(t.modPow(
-                            two.modPow(i, p), p))) {
-                        i = i.add(BigInteger.ONE);
-                    }
-
-                    BigInteger b = c.modPow(two.modPow(m.subtract(i)
-                            .subtract(BigInteger.ONE), p), p);
-                    r = r.multiply(b).mod(p);
-                    t = t.multiply(b.pow(2)).mod(p);
-                    c = b.modPow(two, p);
-                    m = i;
-                }
-
-                if (r.modPow(two, p).equals(rSquare.mod(p))) {
-                    return r;
-                } else {
-                    throw new IllegalArgumentException("Tonnelli fails...");
-                }
-
-            }
-        }
+        TonelliShanks.Solution s =  TonelliShanks.ts(ba, ByteArrayOperator.maxBig);
+        return s.root1.compareTo(s.root2) < 0 ? s.root1.toByteArray() : s.root2.toByteArray();
     }
 
     public static byte[] add(byte[] a, byte[] b) {

@@ -1,7 +1,7 @@
 package com.circomlib.hash;
 
+import iaik.security.md.BLAKE256;
 import org.bouncycastle.jcajce.provider.digest.Blake2b;
-import org.bouncycastle.jcajce.provider.digest.Blake2s;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +22,7 @@ public class Pedersen {
 
     public Pedersen(String type) {
         if ("blake".equals(type)) {
-            this.baseHash = new Blake2s.Blake2s256();
+            this.baseHash = new BLAKE256();
         } else if ("blake2b".equals(type)) {
             this.baseHash = new Blake2b.Blake2b512();
         } else {
@@ -30,7 +30,7 @@ public class Pedersen {
         }
     }
     public Pedersen() {
-        this.baseHash = new Blake2s.Blake2s256();
+        this.baseHash = new BLAKE256();
 
     }
 

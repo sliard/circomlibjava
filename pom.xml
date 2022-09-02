@@ -23,6 +23,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.xipki</groupId>
+            <artifactId>hash-iaik</artifactId>
+            <version>4.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/iaik_jce_full.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
