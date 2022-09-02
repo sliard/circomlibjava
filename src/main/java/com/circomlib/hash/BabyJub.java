@@ -10,8 +10,8 @@ public class BabyJub {
     public byte[] half;
     public byte[] pm1d2;
 
-    private byte[] A;
-    private byte[] D;
+    private final byte[] A;
+    private final byte[] D;
 
     public BabyJub() {
         BigInteger order = new BigInteger("21888242871839275222246405745257275088614511777268538073601725287587578984328", 10);
@@ -59,7 +59,7 @@ public class BabyJub {
 
     public PairByteArray mulPointEscalar(PairByteArray base, byte[] e) {
 
-        PairByteArray res = new PairByteArray(ByteArrayOperator.ZERO,ByteArrayOperator.ONE);
+        PairByteArray res = new PairByteArray(ByteArrayOperator.e(ByteArrayOperator.ZERO),ByteArrayOperator.e(ByteArrayOperator.ONE));
         byte[] rem = e;
         PairByteArray exp = base;
 

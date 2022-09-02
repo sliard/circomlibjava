@@ -214,7 +214,7 @@ public class ByteArrayOperator {
     }
 
     public static boolean isOdd(byte[] b1) {
-        return (b1[0] & 0x01) == 1;
+        return (b1[b1.length-1] & 0x01) == 1;
     }
 
     public static String toString(byte[] v) {
@@ -222,7 +222,7 @@ public class ByteArrayOperator {
     }
 
     public static String toString(byte[] v, int base) {
-        BigInteger b = new BigInteger(e(v));
+        BigInteger b = new BigInteger(v);
         return b.toString(base);
     }
 

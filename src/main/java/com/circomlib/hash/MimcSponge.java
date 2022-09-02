@@ -34,11 +34,6 @@ public class MimcSponge {
         }
         result[0] = longToBytes(0);
         result[nRounds - 1] = longToBytes(0);
-
-        System.out.println("const : " + ByteArrayOperator.toString(result[0], 10));
-        System.out.println("const : " + ByteArrayOperator.toString(result[1], 10));
-        System.out.println("const : " + ByteArrayOperator.toString(result[2], 10));
-
         return result;
     }
 
