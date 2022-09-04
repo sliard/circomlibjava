@@ -1,10 +1,5 @@
 package com.circomlib.hash.blake;
 
-import com.circomlib.hash.ByteArrayOperator;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-
 public abstract class Blake {
 
     protected static byte[][] sigma = new byte[][]{

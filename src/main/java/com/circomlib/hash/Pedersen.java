@@ -1,11 +1,9 @@
 package com.circomlib.hash;
 
-import iaik.security.md.BLAKE256;
-import org.bouncycastle.jcajce.provider.digest.Blake2b;
+import com.circomlib.hash.blake.Blake256;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.HashMap;
 
 public class Pedersen {
@@ -14,24 +12,14 @@ public class Pedersen {
     private static final int WINDOWS_SIZE = 4;
     private static final int N_WINDOWS_PER_SEGMENT = 50;
 
-    private final MessageDigest baseHash;
+    private final Blake256 baseHash;
 
     private final BabyJub babyJub = new BabyJub();
 
     private final HashMap<Integer, PairByteArray> bases = new HashMap();
 
-    public Pedersen(String type) {
-        if ("blake".equals(type)) {
-            this.baseHash = new BLAKE256();
-        } else if ("blake2b".equals(type)) {
-            this.baseHash = new Blake2b.Blake2b512();
-        } else {
-            throw new IllegalArgumentException("bad type");
-        }
-    }
     public Pedersen() {
-        this.baseHash = new BLAKE256();
-
+        this.baseHash = new Blake256();
     }
 
     public byte[] hash(byte[] input) {

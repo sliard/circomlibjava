@@ -1,6 +1,7 @@
 package com.circomlib.hash;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * byte[] operator. Use only BigInteger for the moment : TODO Need change all BigInteger reference
@@ -170,4 +171,15 @@ public class ByteArrayOperator {
         return result.toString();
     }
 
+    public static String toString(int[] v) {
+        StringBuilder bf = new StringBuilder("[");
+        String strOfInts = Arrays
+                .stream(v)
+                .mapToObj(val -> Integer.toUnsignedString(val, 10))
+                .reduce((a, b) -> a.concat(",").concat(b))
+                .get();
+        bf.append(strOfInts);
+        bf.append("]");
+        return bf.toString();
+    }
 }

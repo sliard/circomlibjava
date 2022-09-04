@@ -1,8 +1,7 @@
 package com.circomlib.hash.blake;
 
-import com.circomlib.hash.ByteArrayOperator;
-
-import java.nio.charset.StandardCharsets;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 public class Blake256 extends Blake {
@@ -14,15 +13,13 @@ public class Blake256 extends Blake {
             0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917
     };
 
-    private int[] vectorH = new int[] {
+    private final int[] vectorH = new int[] {
             0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
             0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     };
 
 
-    private int[] s = new int[4];
-
-    private int buflen = 0;
+    private final int[] s = new int[4];
 
     private boolean nullt;
 
@@ -105,17 +102,31 @@ public class Blake256 extends Blake {
 
     // left shift
     public int rot(int x, int n) {
-        return (((x)<<(32-n))|( (x)>>(n)));
+        long xl = x & 0x00000000ffffffffL;
+        long r = (( xl <<(32-n))|( (xl>>(n)))) & 0x00000000ffffffffL;
+        return (int)r;
     }
 
     public void g(int[] v, int[] m, int a, int b, int c, int d, int e, int i) {
-        v[a] += (m[sigma[i][e]] ^ u256[sigma[i][e+1]]) + v[b];
+
+        long va = ((long)v[a] + ((long)(m[sigma[i][e]] ^ u256[sigma[i][e+1]]) & 0x00000000ffffffffL) + (long)v[b]) & 0x00000000ffffffffL;
+        v[a] = (int)va;
+
         v[d] = rot( v[d] ^ v[a],16);
-        v[c] += v[d];
+
+        long vc = ((long)v[c] + (long)v[d]) & 0x00000000ffffffffL;
+        v[c] = (int)vc;
+
         v[b] = rot( v[b] ^ v[c],12);
-        v[a] += (m[sigma[i][e+1]] ^ u256[sigma[i][e]])+v[b];
+
+        va = ((long)v[a] + ((long)(m[sigma[i][e+1]] ^ u256[sigma[i][e]]) & 0x00000000ffffffffL) + (long)v[b]) & 0x00000000ffffffffL;
+        v[a] = (int)va;
+
         v[d] = rot( v[d] ^ v[a], 8);
-        v[c] += v[d];
+
+        vc = ((long)v[c] + (long)v[d]) & 0x00000000ffffffffL;
+        v[c] = (int)vc;
+
         v[b] = rot( v[b] ^ v[c], 7);
     }
 
@@ -168,11 +179,9 @@ public class Blake256 extends Blake {
     }
 
     private int u8to32(byte[] v, int index) {
-        int result = 0;
-        for(int i=0; i<4; i++) {
-            result += v[index+i] << (8*(3-i));
-        }
-        return result;
+        byte[] part = new byte[4];
+        System.arraycopy(v, index, part, 0, 4);
+        return ByteBuffer.wrap(part).order(ByteOrder.BIG_ENDIAN).getInt();
     }
 
     private byte[] u32to8(int v) {
@@ -204,32 +213,10 @@ public class Blake256 extends Blake {
         return buffer;
     }
 
-
-
-    public static void main(String[] args) {
-        /*
-        byte[] message = "Hello world!".getBytes(StandardCharsets.UTF_8);
-
-        Blake256 bb = new Blake256();
-        bb.init();
-        bb.update(message);
-
-        byte[] res = bb.digest();
-
-        System.out.println(ByteArrayOperator.toHexString(res));
-        // "Hello world!" target e0d8a3b73d07feca605c2376f5e54820cf8280af4a195d125ff5eadbf214adf3
-
-
-         */
-        byte[] message2 = new byte[1];
-
-        Blake256 bb2 = new Blake256();
-        bb2.init();
-        bb2.update(message2);
-
-        byte[] res2 = bb2.digest();
-
-        System.out.println(ByteArrayOperator.toHexString(res2));
+    public byte[] digest(byte[] input) {
+        this.init();
+        this.update(input);
+        return digest();
     }
 
 }

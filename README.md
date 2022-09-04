@@ -6,7 +6,8 @@ Done :
 
 - Pedersen hash : OK!
 - MimcSponge hash : OK!
+- Blake256 hash : OK!
 
 TODO :
-- remove iaik lib (code local blake 256 hash)
-- rewrite ByteArrayOperator
+- Make a good README
+- change package structure

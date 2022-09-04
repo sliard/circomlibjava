@@ -15,19 +15,11 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+        <!-- For Keccak Hash -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.70</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.xipki</groupId>
-            <artifactId>hash-iaik</artifactId>
-            <version>4.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/iaik_jce_full.jar</systemPath>
         </dependency>
 
         <dependency>
